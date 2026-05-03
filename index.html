@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Punters Club</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  color: #fff;
+  padding: 20px;
+}
+
+.container { max-width: 600px; margin: 0 auto; }
+
+header { text-align: center; padding: 30px 0; }
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #f39c12, #e74c3c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.week-info { color: #888; font-size: 0.9rem; }
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.kitty-card {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(243,156,18,0.2), rgba(231,76,60,0.2));
+}
+
+.kitty-label {
+  font-size: 0.9rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.kitty-amount { font-size: 3rem; font-weight: 700; color: #f39c12; }
+
+.picker-card { text-align: center; }
+.picker-label { font-size: 0.9rem; color: #aaa; margin-bottom: 8px; }
+.picker-name { font-size: 1.8rem; font-weight: 600; color: #3498db; }
+.picker-note { margin-top: 8px; color: #888; font-size: 0.85rem; }
+
+.section-title {
+  font-size: 1.1rem;
+  color: #aaa;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.member:last-child { border-bottom: none; }
+
+.member-name { font-weight: 500; display: flex; align-items: center; gap: 10px; }
+.member-name .current {
+  background: #3498db;
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.status { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
+.status.paid { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.status.unpaid { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.notes-card { background: rgba(52, 152, 219, 0.1); border-color: rgba(52, 152, 219, 0.3); }
+.notes-content { color: #ccc; line-height: 1.6; }
+
+.rotation-card .rotation-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.rotation-item { background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; }
+.rotation-item.current { background: #3498db; font-weight: 600; }
+.rotation-item.done { opacity: 0.5; text-decoration: line-through; }
+
+.bet-card {
+  background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2));
+  border-color: rgba(155, 89, 182, 0.3);
+}
+.bet-description { font-size: 1.3rem; font-weight: 600; color: #fff; margin-bottom: 20px; line-height: 1.4; }
+.bet-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.bet-detail { text-align: center; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+.bet-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.bet-value { font-size: 1.2rem; font-weight: 600; color: #9b59b6; }
+.bet-value.payout { color: #2ecc71; }
+
+.history-card { background: rgba(44, 62, 80, 0.3); }
+.table-wrapper { overflow-x: auto; }
+.history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.history-table th, .history-table td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.history-table th {
+  color: #888;
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.history-table td.week { color: #888; font-weight: 600; }
+.history-table td.picker { color: #3498db; font-weight: 500; }
+.history-table td.bet-desc { color: #fff; max-width: 150px; }
+.history-table td.odds { color: #9b59b6; font-weight: 500; }
+
+.result-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.result-badge.win { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.result-badge.loss { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+.result-badge.pending { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+
+.no-history { color: #666; text-align: center; padding: 20px; font-size: 0.9rem; }
+
+footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🪨 Punters Club</h1>
+      <p class="week-info" id="weekInfo"></p>
+    </header>
+
+    <div class="card kitty-card">
+      <p class="kitty-label">💰 Current Kitty</p>
+      <p class="kitty-amount" id="kittyAmount"></p>
+    </div>
+
+    <div class="card picker-card">
+      <p class="picker-label">🎯 This Week's Picker</p>
+      <p class="picker-name" id="currentPicker"></p>
+    </div>
+
+    <div class="card bet-card" id="betCard">
+      <h2 class="section-title">🏇 This Week's Bet</h2>
+      <p class="bet-description" id="betDescription"></p>
+      <div class="bet-details">
+        <div class="bet-detail">
+          <span class="bet-label">Odds</span>
+          <span class="bet-value" id="betOdds">-</span>
+        </div>
+        <div class="bet-detail">
+          <span class="bet-label">Stake</span>
+          <span class="bet-value" id="betStake">-</span>
+        </div>
+        <div class="bet-detail">
+          <span class="bet-label">Potential Payout</span>
+          <span class="bet-value payout" id="betPayout">-</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Payment Status</h2>
+      <div id="membersList"></div>
+    </div>
+
+    <div class="card rotation-card">
+      <h2 class="section-title">Rotation Order</h2>
+      <p style="color: #888; font-size: 0.85rem;">Current picker highlighted</p>
+      <div class="rotation-list" id="rotationList"></div>
+    </div>
+
+    <div class="card history-card" id="historyCard">
+      <h2 class="section-title">📜 Past Bets</h2>
+      <div class="table-wrapper">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Wk</th>
+              <th>Picker</th>
+              <th>Bet</th>
+              <th>Odds</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+      <p class="no-history" id="noHistory">No past bets yet - check back after Week 1!</p>
+    </div>
+
+    <div class="card notes-card" id="notesCard">
+      <h2 class="section-title">📝 Notes</h2>
+      <p class="notes-content" id="notesContent"></p>
+    </div>
+
+    <footer>
+      <p>Last updated: <span id="lastUpdated"></span></p>
+    </footer>
+  </div>
+
+  <!-- Load config from separate file -->
+  <script src="config.js"></script>
+
+  <script>
+    // ============================================================
+    // Auto-calculated week + picker
+    // ============================================================
+    function calculateWeek() {
+      const now = new Date();
+      const start = CONFIG.startDate;
+      const diffTime = now - start;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const weekNum = Math.floor(diffDays / 7) + 1;
+      return Math.max(1, weekNum);
+    }
+
+    function getCurrentPicker(weekNum) {
+      const index = (weekNum - 1) % CONFIG.rotation.length;
+      return CONFIG.rotation[index];
+    }
+
+    const currentWeek = calculateWeek();
+    const currentPicker = getCurrentPicker(currentWeek);
+
+    // ============================================================
+    // Render the page
+    // ============================================================
+    document.getElementById('weekInfo').textContent = `Week ${currentWeek}`;
+    document.getElementById('kittyAmount').textContent = `$${CONFIG.kitty.toFixed(2)}`;
+    document.getElementById('currentPicker').textContent = currentPicker;
+    document.getElementById('lastUpdated').textContent = CONFIG.lastUpdated;
+
+    // Bet details
+    document.getElementById('betDescription').textContent = CONFIG.bet.description;
+    document.getElementById('betStake').textContent = `$${CONFIG.stake}`;
+
+    if (CONFIG.bet.odds > 0) {
+      const payout = (CONFIG.stake * CONFIG.bet.odds).toFixed(2);
+      document.getElementById('betOdds').textContent = `$${CONFIG.bet.odds.toFixed(2)}`;
+      document.getElementById('betPayout').textContent = `$${payout}`;
+    } else {
+      document.getElementById('betOdds').textContent = '-';
+      document.getElementById('betPayout').textContent = '-';
+    }
+
+    // Members
+    const membersList = document.getElementById('membersList');
+    for (const [name, paid] of Object.entries(CONFIG.members)) {
+      const isCurrent = name === currentPicker;
+      membersList.innerHTML += `
+        <div class="member">
+          <span class="member-name">
+            ${name}
+            ${isCurrent ? '<span class="current">Picker</span>' : ''}
+          </span>
+          <span class="status ${paid ? 'paid' : 'unpaid'}">
+            ${paid ? '✓ Paid' : 'Unpaid'}
+          </span>
+        </div>
+      `;
+    }
+
+    // Rotation
+    const rotationList = document.getElementById('rotationList');
+    const currentCycle = Math.ceil(currentWeek / CONFIG.rotation.length);
+    const positionInCycle = ((currentWeek - 1) % CONFIG.rotation.length);
+
+    CONFIG.rotation.forEach((name, index) => {
+      let classes = 'rotation-item';
+      if (name === currentPicker) classes += ' current';
+      if (index < positionInCycle) classes += ' done';
+      rotationList.innerHTML += `<span class="${classes}">${name}</span>`;
+    });
+
+    if (currentCycle > 1) {
+      rotationList.innerHTML += `<span class="rotation-item" style="background: rgba(243,156,18,0.3); color: #f39c12;">Cycle ${currentCycle}</span>`;
+    }
+
+    // Notes
+    const notesCard = document.getElementById('notesCard');
+    if (CONFIG.notes) {
+      document.getElementById('notesContent').textContent = CONFIG.notes;
+    } else {
+      notesCard.style.display = 'none';
+    }
+
+    // Past bets history
+    const historyBody = document.getElementById('historyBody');
+    const noHistory = document.getElementById('noHistory');
+
+    if (CONFIG.pastBets && CONFIG.pastBets.length > 0) {
+      noHistory.style.display = 'none';
+      CONFIG.pastBets.forEach((bet, index) => {
+        const weekNum = index + 1;
+        const picker = CONFIG.rotation[(weekNum - 1) % CONFIG.rotation.length];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="week">${weekNum}</td>
+          <td class="picker">${picker}</td>
+          <td class="bet-desc">${bet.bet}</td>
+          <td class="odds">$${bet.odds.toFixed(2)}</td>
+          <td><span class="result-badge ${bet.result}">${bet.result}</span></td>
+        `;
+        historyBody.appendChild(row);
+      });
+    } else {
+      document.querySelector('.table-wrapper').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
