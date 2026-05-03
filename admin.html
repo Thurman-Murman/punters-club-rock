@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Punters Club</title>
+<title>Punters Club — Admin</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,12 +15,12 @@ body {
   padding: 20px;
 }
 
-.container { max-width: 600px; margin: 0 auto; }
+.container { max-width: 700px; margin: 0 auto; }
 
 header { text-align: center; padding: 30px 0; }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 10px;
   background: linear-gradient(90deg, #f39c12, #e74c3c);
   -webkit-background-clip: text;
@@ -28,7 +28,7 @@ h1 {
   background-clip: text;
 }
 
-.week-info { color: #888; font-size: 0.9rem; }
+.subtitle { color: #888; font-size: 0.9rem; }
 
 .card {
   background: rgba(255,255,255,0.05);
@@ -38,303 +38,864 @@ h1 {
   border: 1px solid rgba(255,255,255,0.1);
 }
 
-.kitty-card {
-  text-align: center;
-  background: linear-gradient(135deg, rgba(243,156,18,0.2), rgba(231,76,60,0.2));
-}
-
-.kitty-label {
-  font-size: 0.9rem;
-  color: #aaa;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-}
-
-.kitty-amount { font-size: 3rem; font-weight: 700; color: #f39c12; }
-
-.picker-card { text-align: center; }
-.picker-label { font-size: 0.9rem; color: #aaa; margin-bottom: 8px; }
-.picker-name { font-size: 1.8rem; font-weight: 600; color: #3498db; }
-.picker-note { margin-top: 8px; color: #888; font-size: 0.85rem; }
-
 .section-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #aaa;
   margin-bottom: 16px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.member {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.member:last-child { border-bottom: none; }
-
-.member-name { font-weight: 500; display: flex; align-items: center; gap: 10px; }
-.member-name .current {
-  background: #3498db;
-  color: #fff;
-  font-size: 0.65rem;
-  padding: 3px 8px;
-  border-radius: 20px;
-  text-transform: uppercase;
-}
-
-.status { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
-.status.paid { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
-.status.unpaid { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
-
-.notes-card { background: rgba(52, 152, 219, 0.1); border-color: rgba(52, 152, 219, 0.3); }
-.notes-content { color: #ccc; line-height: 1.6; }
-
-.rotation-card .rotation-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.rotation-item { background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; }
-.rotation-item.current { background: #3498db; font-weight: 600; }
-.rotation-item.done { opacity: 0.5; text-decoration: line-through; }
-
-.bet-card {
-  background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2));
-  border-color: rgba(155, 89, 182, 0.3);
-}
-.bet-description { font-size: 1.3rem; font-weight: 600; color: #fff; margin-bottom: 20px; line-height: 1.4; }
-.bet-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.bet-detail { text-align: center; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 10px; }
-.bet-label {
+label {
   display: block;
-  font-size: 0.75rem;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  color: #aaa;
+  font-size: 0.85rem;
   margin-bottom: 6px;
-}
-.bet-value { font-size: 1.2rem; font-weight: 600; color: #9b59b6; }
-.bet-value.payout { color: #2ecc71; }
-
-.history-card { background: rgba(44, 62, 80, 0.3); }
-.table-wrapper { overflow-x: auto; }
-.history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-.history-table th, .history-table td {
-  padding: 12px 8px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.history-table th {
-  color: #888;
-  font-weight: 500;
-  font-size: 0.75rem;
+  margin-top: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.history-table td.week { color: #888; font-weight: 600; }
-.history-table td.picker { color: #3498db; font-weight: 500; }
-.history-table td.bet-desc { color: #fff; max-width: 150px; }
-.history-table td.odds { color: #9b59b6; font-weight: 500; }
 
-.result-badge {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
+label:first-child { margin-top: 0; }
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
 }
-.result-badge.win { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
-.result-badge.loss { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
-.result-badge.pending { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
 
-.no-history { color: #666; text-align: center; padding: 20px; font-size: 0.9rem; }
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #3498db;
+}
 
-footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
+textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.member-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.member-row:last-child { border-bottom: none; }
+
+.member-row label { margin: 0; text-transform: none; letter-spacing: 0; color: #fff; font-size: 1rem; }
+
+.toggle {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background: rgba(231, 76, 60, 0.3);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle.on { background: rgba(46, 204, 113, 0.4); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: left 0.2s;
+}
+.toggle.on::after { left: 25px; }
+
+.btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.2s;
+  font-family: inherit;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary { background: linear-gradient(90deg, #f39c12, #e74c3c); color: #fff; }
+.btn-secondary { background: rgba(52, 152, 219, 0.3); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.5); }
+.btn-ghost { background: rgba(255,255,255,0.08); color: #aaa; border: 1px solid rgba(255,255,255,0.15); }
+.btn-danger { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.4); }
+
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+.past-bet-item {
+  background: rgba(0,0,0,0.2);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.past-bet-item .week-tag { color: #888; font-weight: 600; min-width: 30px; }
+.past-bet-item .desc { color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.past-bet-item .odds { color: #9b59b6; font-weight: 500; }
+.past-bet-item select { padding: 6px 8px; font-size: 0.8rem; }
+.past-bet-item .remove {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#output {
+  background: #0a0a14;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 16px;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  color: #ddd;
+  margin-top: 12px;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: rgba(46, 204, 113, 0.95);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: transform 0.3s;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+#loginScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+#loginScreen .card { width: 100%; max-width: 400px; text-align: center; }
+#loginScreen .lock-icon { font-size: 3rem; margin-bottom: 16px; }
+
+.hint {
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.bet-preview {
+  background: rgba(155, 89, 182, 0.1);
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+.bet-preview strong { color: #2ecc71; }
+
+.error-msg {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
 </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🪨 Punters Club</h1>
-      <p class="week-info" id="weekInfo"></p>
-    </header>
 
-    <div class="card kitty-card">
-      <p class="kitty-label">💰 Current Kitty</p>
-      <p class="kitty-amount" id="kittyAmount"></p>
-    </div>
+<!-- Login screen -->
+<div id="loginScreen">
+  <div class="card">
+    <div class="lock-icon">🔒</div>
+    <h1>Admin Access</h1>
+    <p class="subtitle" style="margin-bottom: 20px;">Enter password to continue</p>
+    <input type="password" id="passwordInput" placeholder="Password" autofocus>
+    <p class="error-msg" id="loginError" style="display: none;">Incorrect password</p>
+    <button class="btn btn-primary" id="loginBtn" style="margin-top: 16px; width: 100%;">Unlock</button>
+  </div>
+</div>
 
-    <div class="card picker-card">
-      <p class="picker-label">🎯 This Week's Picker</p>
-      <p class="picker-name" id="currentPicker"></p>
-    </div>
+<!-- Main admin app -->
+<div id="adminApp" class="container" style="display: none;">
+  <header>
+    <h1>⚙️ Admin Panel</h1>
+    <p class="subtitle">Edit values, then generate config.js to paste into GitHub</p>
+  </header>
 
-    <div class="card bet-card" id="betCard">
-      <h2 class="section-title">🏇 This Week's Bet</h2>
-      <p class="bet-description" id="betDescription"></p>
-      <div class="bet-details">
-        <div class="bet-detail">
-          <span class="bet-label">Odds</span>
-          <span class="bet-value" id="betOdds">-</span>
-        </div>
-        <div class="bet-detail">
-          <span class="bet-label">Stake</span>
-          <span class="bet-value" id="betStake">-</span>
-        </div>
-        <div class="bet-detail">
-          <span class="bet-label">Potential Payout</span>
-          <span class="bet-value payout" id="betPayout">-</span>
-        </div>
+  <!-- General settings -->
+  <div class="card">
+    <h2 class="section-title">General</h2>
+
+    <label>Start Date (Sunday Week 1 began)</label>
+    <input type="date" id="startDate">
+
+    <div class="row">
+      <div>
+        <label>Kitty ($)</label>
+        <input type="number" id="kitty" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Stake per Week ($)</label>
+        <input type="number" id="stake" step="1" min="0">
       </div>
     </div>
 
-    <div class="card">
-      <h2 class="section-title">Payment Status</h2>
-      <div id="membersList"></div>
-    </div>
+    <label>Last Updated (display label)</label>
+    <input type="text" id="lastUpdated" placeholder="e.g. 17 Jan 2026">
 
-    <div class="card rotation-card">
-      <h2 class="section-title">Rotation Order</h2>
-      <p style="color: #888; font-size: 0.85rem;">Current picker highlighted</p>
-      <div class="rotation-list" id="rotationList"></div>
-    </div>
-
-    <div class="card history-card" id="historyCard">
-      <h2 class="section-title">📜 Past Bets</h2>
-      <div class="table-wrapper">
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>Wk</th>
-              <th>Picker</th>
-              <th>Bet</th>
-              <th>Odds</th>
-              <th>Result</th>
-            </tr>
-          </thead>
-          <tbody id="historyBody"></tbody>
-        </table>
-      </div>
-      <p class="no-history" id="noHistory">No past bets yet - check back after Week 1!</p>
-    </div>
-
-    <div class="card notes-card" id="notesCard">
-      <h2 class="section-title">📝 Notes</h2>
-      <p class="notes-content" id="notesContent"></p>
-    </div>
-
-    <footer>
-      <p>Last updated: <span id="lastUpdated"></span></p>
-    </footer>
+    <label>Notes / Announcement (leave blank to hide)</label>
+    <textarea id="notes" placeholder="$25 per week. Bank details: ..."></textarea>
   </div>
 
-  <!-- Load config from separate file -->
-  <script src="config.js"></script>
+  <!-- This week's bet -->
+  <div class="card">
+    <h2 class="section-title">🏇 This Week's Bet</h2>
 
-  <script>
-    // ============================================================
-    // Auto-calculated week + picker
-    // ============================================================
-    function calculateWeek() {
-      const now = new Date();
-      const start = CONFIG.startDate;
-      const diffTime = now - start;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const weekNum = Math.floor(diffDays / 7) + 1;
-      return Math.max(1, weekNum);
-    }
+    <label>Bet Description</label>
+    <textarea id="betDescription" placeholder="e.g. 7-Leg Multi: ..."></textarea>
 
-    function getCurrentPicker(weekNum) {
-      const index = (weekNum - 1) % CONFIG.rotation.length;
-      return CONFIG.rotation[index];
-    }
+    <div class="row">
+      <div>
+        <label>Odds</label>
+        <input type="number" id="betOdds" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Payout (auto)</label>
+        <input type="text" id="betPayout" readonly style="opacity: 0.6;">
+      </div>
+    </div>
+  </div>
 
-    const currentWeek = calculateWeek();
-    const currentPicker = getCurrentPicker(currentWeek);
+  <!-- Members + paid status -->
+  <div class="card">
+    <h2 class="section-title">Payment Status</h2>
+    <div id="membersContainer"></div>
 
-    // ============================================================
-    // Render the page
-    // ============================================================
-    document.getElementById('weekInfo').textContent = `Week ${currentWeek}`;
-    document.getElementById('kittyAmount').textContent = `$${CONFIG.kitty.toFixed(2)}`;
-    document.getElementById('currentPicker').textContent = currentPicker;
-    document.getElementById('lastUpdated').textContent = CONFIG.lastUpdated;
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="addMemberBtn">+ Add Member</button>
+      <button class="btn btn-ghost" id="resetPaidBtn">Reset all to Unpaid</button>
+    </div>
 
-    // Bet details
-    document.getElementById('betDescription').textContent = CONFIG.bet.description;
-    document.getElementById('betStake').textContent = `$${CONFIG.stake}`;
+    <p class="hint">Tip: After a kitty payout or new week, hit "Reset all to Unpaid".</p>
+  </div>
 
-    if (CONFIG.bet.odds > 0) {
-      const payout = (CONFIG.stake * CONFIG.bet.odds).toFixed(2);
-      document.getElementById('betOdds').textContent = `$${CONFIG.bet.odds.toFixed(2)}`;
-      document.getElementById('betPayout').textContent = `$${payout}`;
+  <!-- Past bets -->
+  <div class="card">
+    <h2 class="section-title">📜 Past Bets History</h2>
+    <p class="hint" style="margin-top:0; margin-bottom: 16px;">Add the result of last week's bet here. Week numbers are auto-assigned in order.</p>
+    <div id="pastBetsContainer"></div>
+
+    <h3 style="color: #aaa; font-size: 0.9rem; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Add New Past Bet</h3>
+    <label>Description</label>
+    <textarea id="newBetDesc" placeholder="e.g. 5-Leg Multi: ..."></textarea>
+    <div class="row">
+      <div>
+        <label>Odds</label>
+        <input type="number" id="newBetOdds" step="0.01" min="0">
+      </div>
+      <div>
+        <label>Result</label>
+        <select id="newBetResult">
+          <option value="win">Win</option>
+          <option value="loss">Loss</option>
+          <option value="pending">Pending</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-secondary" id="addPastBetBtn" style="margin-top: 16px;">+ Add Past Bet</button>
+  </div>
+
+  <!-- GitHub settings -->
+  <div class="card">
+    <h2 class="section-title">🔗 GitHub Connection</h2>
+    <p class="hint" style="margin-top: 0; margin-bottom: 12px;">Saved to this browser only. Set once, then "Save to GitHub" works from now on.</p>
+
+    <label>GitHub Username/Org</label>
+    <input type="text" id="ghOwner" placeholder="e.g. Thurman-Murman">
+
+    <label>Repository Name</label>
+    <input type="text" id="ghRepo" placeholder="e.g. Punters-Club">
+
+    <label>Branch</label>
+    <input type="text" id="ghBranch" placeholder="main" value="main">
+
+    <label>Personal Access Token</label>
+    <input type="password" id="ghToken" placeholder="github_pat_...">
+    <p class="hint">
+      <strong>How to get a token:</strong><br>
+      1. Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:#3498db;">github.com/settings/personal-access-tokens/new</a><br>
+      2. Resource owner: your account · Repository access: only this repo<br>
+      3. Permissions → Repository permissions → <strong>Contents: Read and write</strong><br>
+      4. Generate, then paste the token above
+    </p>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="saveSettingsBtn">💾 Save Settings</button>
+      <button class="btn btn-ghost" id="testConnBtn">🔍 Test Connection</button>
+      <button class="btn btn-danger" id="clearSettingsBtn">Clear Token</button>
+    </div>
+  </div>
+
+  <!-- Save / Generate output -->
+  <div class="card" style="background: linear-gradient(135deg, rgba(243,156,18,0.15), rgba(231,76,60,0.15)); border-color: rgba(243,156,18,0.3);">
+    <h2 class="section-title">📤 Save Changes</h2>
+    <p class="hint" style="margin-top: 0;">"Save to GitHub" pushes <code>config.js</code> directly. Netlify auto-deploys in ~30 seconds.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="saveToGithubBtn">🚀 Save to GitHub</button>
+      <button class="btn btn-secondary" id="generateBtn">Preview / Generate</button>
+      <button class="btn btn-secondary" id="copyBtn" style="display: none;">📋 Copy</button>
+      <button class="btn btn-secondary" id="downloadBtn" style="display: none;">⬇ Download</button>
+    </div>
+    <pre id="output" style="display: none;"></pre>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Load existing config so admin pre-fills with current values -->
+<script src="config.js"></script>
+
+<script>
+// ============================================================
+// PASSWORD GATE
+// ============================================================
+// Change this password to whatever you like.
+// Note: this is client-side only — anyone who views the page source
+// can find it. Treat as obscurity, not real security.
+const ADMIN_PASSWORD = "Hawthorn!1";
+
+const loginScreen = document.getElementById('loginScreen');
+const adminApp = document.getElementById('adminApp');
+const passwordInput = document.getElementById('passwordInput');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
+
+function tryLogin() {
+  if (passwordInput.value === ADMIN_PASSWORD) {
+    sessionStorage.setItem('pc_admin_unlocked', 'yes');
+    showAdmin();
+  } else {
+    loginError.style.display = 'block';
+    passwordInput.value = '';
+    passwordInput.focus();
+  }
+}
+
+function showAdmin() {
+  loginScreen.style.display = 'none';
+  adminApp.style.display = 'block';
+  initAdmin();
+}
+
+loginBtn.addEventListener('click', tryLogin);
+passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+
+// Stay unlocked for the session
+if (sessionStorage.getItem('pc_admin_unlocked') === 'yes') {
+  showAdmin();
+}
+
+// ============================================================
+// ADMIN LOGIC
+// ============================================================
+let state = null;
+
+function initAdmin() {
+  // Clone CONFIG into mutable state
+  state = {
+    startDate: CONFIG.startDate instanceof Date ? CONFIG.startDate : new Date(CONFIG.startDate),
+    kitty: CONFIG.kitty,
+    stake: CONFIG.stake,
+    bet: { ...CONFIG.bet },
+    members: { ...CONFIG.members },
+    rotation: [...CONFIG.rotation],
+    notes: CONFIG.notes || "",
+    pastBets: CONFIG.pastBets.map(b => ({ ...b })),
+    lastUpdated: CONFIG.lastUpdated || ""
+  };
+
+  // Pre-fill form
+  document.getElementById('startDate').value = formatDateForInput(state.startDate);
+  document.getElementById('kitty').value = state.kitty;
+  document.getElementById('stake').value = state.stake;
+  document.getElementById('lastUpdated').value = state.lastUpdated;
+  document.getElementById('notes').value = state.notes;
+  document.getElementById('betDescription').value = state.bet.description;
+  document.getElementById('betOdds').value = state.bet.odds;
+  updatePayoutPreview();
+
+  renderMembers();
+  renderPastBets();
+
+  // Event listeners
+  document.getElementById('startDate').addEventListener('change', e => {
+    state.startDate = new Date(e.target.value + 'T00:00:00');
+  });
+  document.getElementById('kitty').addEventListener('input', e => { state.kitty = parseFloat(e.target.value) || 0; });
+  document.getElementById('stake').addEventListener('input', e => {
+    state.stake = parseFloat(e.target.value) || 0;
+    updatePayoutPreview();
+  });
+  document.getElementById('lastUpdated').addEventListener('input', e => { state.lastUpdated = e.target.value; });
+  document.getElementById('notes').addEventListener('input', e => { state.notes = e.target.value; });
+  document.getElementById('betDescription').addEventListener('input', e => { state.bet.description = e.target.value; });
+  document.getElementById('betOdds').addEventListener('input', e => {
+    state.bet.odds = parseFloat(e.target.value) || 0;
+    updatePayoutPreview();
+  });
+
+  document.getElementById('addMemberBtn').addEventListener('click', addMember);
+  document.getElementById('resetPaidBtn').addEventListener('click', resetPaid);
+  document.getElementById('addPastBetBtn').addEventListener('click', addPastBet);
+  document.getElementById('generateBtn').addEventListener('click', generateOutput);
+  document.getElementById('copyBtn').addEventListener('click', copyOutput);
+  document.getElementById('downloadBtn').addEventListener('click', downloadOutput);
+
+  // GitHub settings + save
+  loadGitHubSettings();
+  document.getElementById('saveSettingsBtn').addEventListener('click', saveGitHubSettings);
+  document.getElementById('testConnBtn').addEventListener('click', testGitHubConnection);
+  document.getElementById('clearSettingsBtn').addEventListener('click', clearGitHubSettings);
+  document.getElementById('saveToGithubBtn').addEventListener('click', saveToGitHub);
+}
+
+function formatDateForInput(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function updatePayoutPreview() {
+  const odds = state.bet.odds;
+  const stake = state.stake;
+  const payout = (odds * stake).toFixed(2);
+  document.getElementById('betPayout').value = `$${payout}`;
+}
+
+function renderMembers() {
+  const container = document.getElementById('membersContainer');
+  container.innerHTML = '';
+
+  state.rotation.forEach((name, idx) => {
+    const paid = state.members[name] || false;
+    const row = document.createElement('div');
+    row.className = 'member-row';
+    row.innerHTML = `
+      <label>${idx + 1}. ${name}</label>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="toggle ${paid ? 'on' : ''}" data-name="${name}"></div>
+        <button class="btn btn-danger" data-remove="${name}" style="padding: 6px 10px; font-size: 0.8rem;">×</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  // Wire toggles
+  container.querySelectorAll('.toggle').forEach(t => {
+    t.addEventListener('click', () => {
+      const name = t.dataset.name;
+      state.members[name] = !state.members[name];
+      t.classList.toggle('on');
+    });
+  });
+
+  // Wire remove buttons
+  container.querySelectorAll('[data-remove]').forEach(b => {
+    b.addEventListener('click', () => {
+      const name = b.dataset.remove;
+      if (confirm(`Remove ${name} from the club?`)) {
+        delete state.members[name];
+        state.rotation = state.rotation.filter(n => n !== name);
+        renderMembers();
+      }
+    });
+  });
+}
+
+function addMember() {
+  const name = prompt('Member name:');
+  if (!name) return;
+  const trimmed = name.trim();
+  if (!trimmed) return;
+  if (state.rotation.includes(trimmed)) {
+    showToast(`${trimmed} is already in the rotation`, 'error');
+    return;
+  }
+  state.rotation.push(trimmed);
+  state.members[trimmed] = false;
+  renderMembers();
+}
+
+function resetPaid() {
+  if (!confirm('Set all members back to Unpaid?')) return;
+  Object.keys(state.members).forEach(k => { state.members[k] = false; });
+  renderMembers();
+  showToast('All members reset to Unpaid');
+}
+
+function renderPastBets() {
+  const container = document.getElementById('pastBetsContainer');
+  container.innerHTML = '';
+
+  if (state.pastBets.length === 0) {
+    container.innerHTML = '<p class="hint" style="text-align: center; padding: 20px;">No past bets yet.</p>';
+    return;
+  }
+
+  state.pastBets.forEach((bet, idx) => {
+    const item = document.createElement('div');
+    item.className = 'past-bet-item';
+    const truncated = bet.bet.length > 50 ? bet.bet.slice(0, 50) + '…' : bet.bet;
+    item.innerHTML = `
+      <span class="week-tag">W${idx + 1}</span>
+      <span class="desc" title="${escapeAttr(bet.bet)}">${escapeHtml(truncated)}</span>
+      <span class="odds">$${bet.odds.toFixed(2)}</span>
+      <select data-idx="${idx}">
+        <option value="win" ${bet.result === 'win' ? 'selected' : ''}>Win</option>
+        <option value="loss" ${bet.result === 'loss' ? 'selected' : ''}>Loss</option>
+        <option value="pending" ${bet.result === 'pending' ? 'selected' : ''}>Pending</option>
+      </select>
+      <button class="remove" data-idx="${idx}" title="Remove">×</button>
+    `;
+    container.appendChild(item);
+  });
+
+  container.querySelectorAll('select').forEach(s => {
+    s.addEventListener('change', e => {
+      state.pastBets[parseInt(e.target.dataset.idx)].result = e.target.value;
+    });
+  });
+
+  container.querySelectorAll('.remove').forEach(b => {
+    b.addEventListener('click', e => {
+      const idx = parseInt(e.target.dataset.idx);
+      if (confirm(`Remove Week ${idx + 1}'s past bet?`)) {
+        state.pastBets.splice(idx, 1);
+        renderPastBets();
+      }
+    });
+  });
+}
+
+function addPastBet() {
+  const desc = document.getElementById('newBetDesc').value.trim();
+  const odds = parseFloat(document.getElementById('newBetOdds').value);
+  const result = document.getElementById('newBetResult').value;
+
+  if (!desc) { showToast('Bet description required', 'error'); return; }
+  if (!odds || odds <= 0) { showToast('Valid odds required', 'error'); return; }
+
+  state.pastBets.push({ bet: desc, odds, result });
+  renderPastBets();
+
+  document.getElementById('newBetDesc').value = '';
+  document.getElementById('newBetOdds').value = '';
+  document.getElementById('newBetResult').value = 'win';
+
+  showToast(`Added Week ${state.pastBets.length}: ${result.toUpperCase()}`);
+}
+
+function buildConfigString() {
+  const d = state.startDate;
+  const startDateStr = `new Date(${d.getFullYear()}, ${d.getMonth()}, ${d.getDate()})`;
+
+  // Build members object preserving rotation order
+  const memberLines = state.rotation.map(name => {
+    return `    "${escapeStr(name)}": ${!!state.members[name]}`;
+  }).join(',\n');
+
+  const rotationStr = state.rotation.map(n => `"${escapeStr(n)}"`).join(', ');
+
+  const pastBetLines = state.pastBets.map(b => {
+    return `    { bet: "${escapeStr(b.bet)}", odds: ${b.odds}, result: "${b.result}" }`;
+  }).join(',\n');
+
+  return `// ============================================================
+// 🔧 PUNTERS CLUB CONFIG - Generated by admin.html 🔧
+// ============================================================
+
+const CONFIG = {
+
+  // 📅 Start Date - The Sunday Week 1 began
+  startDate: ${startDateStr},
+
+  // 💰 Kitty
+  kitty: ${state.kitty.toFixed(2)},
+
+  // 🎯 This Week's Bet
+  bet: {
+    description: "${escapeStr(state.bet.description)}",
+    odds: ${state.bet.odds}
+  },
+
+  // Stake per week
+  stake: ${state.stake},
+
+  // Member payment status
+  members: {
+${memberLines}
+  },
+
+  // Rotation order
+  rotation: [${rotationStr}],
+
+  // Notes
+  notes: "${escapeStr(state.notes)}",
+
+  // 📜 Past Bets History
+  pastBets: [
+${pastBetLines}
+  ],
+
+  lastUpdated: "${escapeStr(state.lastUpdated)}"
+};
+`;
+}
+
+function generateOutput() {
+  const output = buildConfigString();
+  const out = document.getElementById('output');
+  out.textContent = output;
+  out.style.display = 'block';
+  document.getElementById('copyBtn').style.display = 'inline-block';
+  document.getElementById('downloadBtn').style.display = 'inline-block';
+
+  out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyOutput() {
+  const text = document.getElementById('output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Copied to clipboard! Now paste into GitHub config.js');
+  }).catch(() => {
+    showToast('Copy failed — select the text manually', 'error');
+  });
+}
+
+function downloadOutput() {
+  const text = document.getElementById('output').textContent;
+  const blob = new Blob([text], { type: 'text/javascript' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'config.js';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Downloaded config.js');
+}
+
+// Helpers
+function escapeStr(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+}
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function escapeAttr(s) {
+  return escapeHtml(s).replace(/"/g, '&quot;');
+}
+
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.background = type === 'error' ? 'rgba(231, 76, 60, 0.95)' : 'rgba(46, 204, 113, 0.95)';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ============================================================
+// GITHUB INTEGRATION
+// ============================================================
+const GH_STORAGE_KEY = 'pc_admin_github_settings';
+
+function loadGitHubSettings() {
+  try {
+    const raw = localStorage.getItem(GH_STORAGE_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    document.getElementById('ghOwner').value = s.owner || '';
+    document.getElementById('ghRepo').value = s.repo || '';
+    document.getElementById('ghBranch').value = s.branch || 'main';
+    document.getElementById('ghToken').value = s.token || '';
+  } catch (e) {
+    console.warn('Failed to load settings', e);
+  }
+}
+
+function saveGitHubSettings() {
+  const settings = {
+    owner: document.getElementById('ghOwner').value.trim(),
+    repo: document.getElementById('ghRepo').value.trim(),
+    branch: document.getElementById('ghBranch').value.trim() || 'main',
+    token: document.getElementById('ghToken').value.trim()
+  };
+
+  if (!settings.owner || !settings.repo || !settings.token) {
+    showToast('Owner, repo, and token are all required', 'error');
+    return;
+  }
+
+  localStorage.setItem(GH_STORAGE_KEY, JSON.stringify(settings));
+  showToast('GitHub settings saved to this browser');
+}
+
+function clearGitHubSettings() {
+  if (!confirm('Clear saved GitHub token and settings from this browser?')) return;
+  localStorage.removeItem(GH_STORAGE_KEY);
+  document.getElementById('ghOwner').value = '';
+  document.getElementById('ghRepo').value = '';
+  document.getElementById('ghBranch').value = 'main';
+  document.getElementById('ghToken').value = '';
+  showToast('Settings cleared');
+}
+
+function getGitHubSettings() {
+  const owner = document.getElementById('ghOwner').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const branch = document.getElementById('ghBranch').value.trim() || 'main';
+  const token = document.getElementById('ghToken').value.trim();
+  if (!owner || !repo || !token) return null;
+  return { owner, repo, branch, token };
+}
+
+async function testGitHubConnection() {
+  const s = getGitHubSettings();
+  if (!s) { showToast('Fill in owner, repo, and token first', 'error'); return; }
+
+  showToast('Testing connection…');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${s.owner}/${s.repo}`, {
+      headers: {
+        'Authorization': `Bearer ${s.token}`,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      showToast(`✓ Connected to ${data.full_name}`);
+    } else if (res.status === 401) {
+      showToast('✗ Token invalid or expired', 'error');
+    } else if (res.status === 404) {
+      showToast('✗ Repo not found or token lacks access', 'error');
     } else {
-      document.getElementById('betOdds').textContent = '-';
-      document.getElementById('betPayout').textContent = '-';
+      showToast(`✗ Error ${res.status}`, 'error');
+    }
+  } catch (e) {
+    showToast('✗ Network error: ' + e.message, 'error');
+  }
+}
+
+// Encode a UTF-8 string to base64 (browser-safe for non-ASCII like emoji)
+function utf8ToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function saveToGitHub() {
+  const s = getGitHubSettings();
+  if (!s) {
+    showToast('Set up GitHub connection first (above)', 'error');
+    return;
+  }
+
+  if (!confirm(`Push config.js to ${s.owner}/${s.repo} on branch "${s.branch}"?\n\nNetlify will auto-deploy in ~30 seconds.`)) {
+    return;
+  }
+
+  const btn = document.getElementById('saveToGithubBtn');
+  const originalText = btn.textContent;
+  btn.textContent = '⏳ Saving…';
+  btn.disabled = true;
+
+  try {
+    const path = 'config.js';
+    const apiBase = `https://api.github.com/repos/${s.owner}/${s.repo}/contents/${path}`;
+    const headers = {
+      'Authorization': `Bearer ${s.token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    };
+
+    // Get current file SHA (required for update)
+    let sha = null;
+    const getRes = await fetch(`${apiBase}?ref=${encodeURIComponent(s.branch)}`, { headers });
+    if (getRes.ok) {
+      const data = await getRes.json();
+      sha = data.sha;
+    } else if (getRes.status !== 404) {
+      const err = await getRes.json().catch(() => ({}));
+      throw new Error(`Couldn't read existing file: ${getRes.status} ${err.message || ''}`);
     }
 
-    // Members
-    const membersList = document.getElementById('membersList');
-    for (const [name, paid] of Object.entries(CONFIG.members)) {
-      const isCurrent = name === currentPicker;
-      membersList.innerHTML += `
-        <div class="member">
-          <span class="member-name">
-            ${name}
-            ${isCurrent ? '<span class="current">Picker</span>' : ''}
-          </span>
-          <span class="status ${paid ? 'paid' : 'unpaid'}">
-            ${paid ? '✓ Paid' : 'Unpaid'}
-          </span>
-        </div>
-      `;
-    }
+    // Build new content
+    const content = buildConfigString();
+    const commitMsg = `Update config.js — Week ${calculateCurrentWeek()} (${new Date().toISOString().slice(0, 10)})`;
 
-    // Rotation
-    const rotationList = document.getElementById('rotationList');
-    const currentCycle = Math.ceil(currentWeek / CONFIG.rotation.length);
-    const positionInCycle = ((currentWeek - 1) % CONFIG.rotation.length);
+    const body = {
+      message: commitMsg,
+      content: utf8ToBase64(content),
+      branch: s.branch
+    };
+    if (sha) body.sha = sha;
 
-    CONFIG.rotation.forEach((name, index) => {
-      let classes = 'rotation-item';
-      if (name === currentPicker) classes += ' current';
-      if (index < positionInCycle) classes += ' done';
-      rotationList.innerHTML += `<span class="${classes}">${name}</span>`;
+    const putRes = await fetch(apiBase, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(body)
     });
 
-    if (currentCycle > 1) {
-      rotationList.innerHTML += `<span class="rotation-item" style="background: rgba(243,156,18,0.3); color: #f39c12;">Cycle ${currentCycle}</span>`;
-    }
-
-    // Notes
-    const notesCard = document.getElementById('notesCard');
-    if (CONFIG.notes) {
-      document.getElementById('notesContent').textContent = CONFIG.notes;
+    if (putRes.ok) {
+      const result = await putRes.json();
+      const shortSha = result.commit && result.commit.sha ? result.commit.sha.slice(0, 7) : '';
+      showToast(`🚀 Pushed to GitHub! Commit ${shortSha} — Netlify deploying…`);
     } else {
-      notesCard.style.display = 'none';
+      const err = await putRes.json().catch(() => ({}));
+      throw new Error(`${putRes.status}: ${err.message || 'Unknown error'}`);
     }
+  } catch (e) {
+    showToast(`✗ Save failed: ${e.message}`, 'error');
+    console.error(e);
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
 
-    // Past bets history
-    const historyBody = document.getElementById('historyBody');
-    const noHistory = document.getElementById('noHistory');
+function calculateCurrentWeek() {
+  const now = new Date();
+  const diffDays = Math.floor((now - state.startDate) / (1000 * 60 * 60 * 24));
+  return Math.max(1, Math.floor(diffDays / 7) + 1);
+}
+</script>
 
-    if (CONFIG.pastBets && CONFIG.pastBets.length > 0) {
-      noHistory.style.display = 'none';
-      CONFIG.pastBets.forEach((bet, index) => {
-        const weekNum = index + 1;
-        const picker = CONFIG.rotation[(weekNum - 1) % CONFIG.rotation.length];
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="week">${weekNum}</td>
-          <td class="picker">${picker}</td>
-          <td class="bet-desc">${bet.bet}</td>
-          <td class="odds">$${bet.odds.toFixed(2)}</td>
-          <td><span class="result-badge ${bet.result}">${bet.result}</span></td>
-        `;
-        historyBody.appendChild(row);
-      });
-    } else {
-      document.querySelector('.table-wrapper').style.display = 'none';
-    }
-  </script>
 </body>
 </html>
