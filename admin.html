@@ -55,7 +55,6 @@ label {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 label:first-child { margin-top: 0; }
 
 input[type="text"],
@@ -75,10 +74,7 @@ select {
   transition: border-color 0.2s;
 }
 
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: #3498db;
-}
+input:focus, textarea:focus, select:focus { outline: none; border-color: #3498db; }
 
 textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
 
@@ -92,7 +88,6 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .member-row:last-child { border-bottom: none; }
-
 .member-row label { margin: 0; text-transform: none; letter-spacing: 0; color: #fff; font-size: 1rem; }
 
 .toggle {
@@ -139,30 +134,70 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
 
 .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 
-.past-bet-item {
-  background: rgba(0,0,0,0.2);
-  padding: 12px;
-  border-radius: 10px;
+.bet-input-block {
+  background: rgba(155, 89, 182, 0.08);
+  border: 1px solid rgba(155, 89, 182, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.bet-input-block:last-child { margin-bottom: 0; }
+.bet-input-block .picker-tag {
+  display: inline-block;
+  background: rgba(52, 152, 219, 0.3);
+  color: #3498db;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
   margin-bottom: 10px;
+}
+
+.past-bet-week {
+  background: rgba(0,0,0,0.2);
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.past-bet-week .week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.past-bet-week .week-tag {
+  color: #f39c12;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.past-bet-week .week-pickers {
+  color: #888;
+  font-size: 0.8rem;
+}
+.past-bet-row {
   display: grid;
-  grid-template-columns: auto 1fr auto auto auto;
+  grid-template-columns: 80px 1fr 70px 90px;
   gap: 10px;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  padding: 6px 0;
 }
-.past-bet-item .week-tag { color: #888; font-weight: 600; min-width: 30px; }
-.past-bet-item .desc { color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.past-bet-item .odds { color: #9b59b6; font-weight: 500; }
-.past-bet-item select { padding: 6px 8px; font-size: 0.8rem; }
-.past-bet-item .remove {
+.past-bet-row .picker { color: #3498db; font-weight: 500; font-size: 0.8rem; }
+.past-bet-row .desc { color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.past-bet-row .odds { color: #9b59b6; font-weight: 500; text-align: right; }
+.past-bet-row select { padding: 6px 8px; font-size: 0.75rem; }
+.past-bet-week .remove-week {
   background: rgba(231, 76, 60, 0.2);
   color: #e74c3c;
-  border: none;
-  width: 28px;
-  height: 28px;
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  padding: 4px 10px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.75rem;
 }
 
 #output {
@@ -196,37 +231,13 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
-#loginScreen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
-}
+#loginScreen { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
 #loginScreen .card { width: 100%; max-width: 400px; text-align: center; }
 #loginScreen .lock-icon { font-size: 3rem; margin-bottom: 16px; }
 
-.hint {
-  color: #888;
-  font-size: 0.85rem;
-  margin-top: 6px;
-  line-height: 1.5;
-}
-
-.bet-preview {
-  background: rgba(155, 89, 182, 0.1);
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 10px;
-  font-size: 0.85rem;
-  color: #ccc;
-}
-.bet-preview strong { color: #2ecc71; }
-
-.error-msg {
-  color: #e74c3c;
-  font-size: 0.85rem;
-  margin-top: 8px;
-}
+.hint { color: #888; font-size: 0.85rem; margin-top: 6px; line-height: 1.5; }
+.hint a { color: #3498db; }
+.error-msg { color: #e74c3c; font-size: 0.85rem; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -247,7 +258,7 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
 <div id="adminApp" class="container" style="display: none;">
   <header>
     <h1>⚙️ Admin Panel</h1>
-    <p class="subtitle">Edit values, then generate config.js to paste into GitHub</p>
+    <p class="subtitle" id="weekIndicator">Edit values, then save to GitHub</p>
   </header>
 
   <!-- General settings -->
@@ -263,7 +274,7 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
         <input type="number" id="kitty" step="0.01" min="0">
       </div>
       <div>
-        <label>Stake per Week ($)</label>
+        <label>Stake per Bet ($)</label>
         <input type="number" id="stake" step="1" min="0">
       </div>
     </div>
@@ -272,24 +283,43 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
     <input type="text" id="lastUpdated" placeholder="e.g. 17 Jan 2026">
 
     <label>Notes / Announcement (leave blank to hide)</label>
-    <textarea id="notes" placeholder="$25 per week. Bank details: ..."></textarea>
+    <textarea id="notes" placeholder="$50 per week. Bank details: ..."></textarea>
   </div>
 
-  <!-- This week's bet -->
+  <!-- This week's bets - TWO blocks -->
   <div class="card">
-    <h2 class="section-title">🏇 This Week's Bet</h2>
+    <h2 class="section-title">🏇 This Week's Bets</h2>
+    <p class="hint" style="margin-top: 0; margin-bottom: 16px;">Two pickers each week — fill in both bets below.</p>
 
-    <label>Bet Description</label>
-    <textarea id="betDescription" placeholder="e.g. 7-Leg Multi: ..."></textarea>
-
-    <div class="row">
-      <div>
-        <label>Odds</label>
-        <input type="number" id="betOdds" step="0.01" min="0">
+    <div class="bet-input-block">
+      <span class="picker-tag" id="bet1PickerTag">Picker 1</span>
+      <label>Bet Description</label>
+      <textarea id="bet1Description" placeholder="e.g. 5-Leg Multi: ..."></textarea>
+      <div class="row">
+        <div>
+          <label>Odds</label>
+          <input type="number" id="bet1Odds" step="0.01" min="0">
+        </div>
+        <div>
+          <label>Payout (auto)</label>
+          <input type="text" id="bet1Payout" readonly style="opacity: 0.6;">
+        </div>
       </div>
-      <div>
-        <label>Payout (auto)</label>
-        <input type="text" id="betPayout" readonly style="opacity: 0.6;">
+    </div>
+
+    <div class="bet-input-block">
+      <span class="picker-tag" id="bet2PickerTag">Picker 2</span>
+      <label>Bet Description</label>
+      <textarea id="bet2Description" placeholder="e.g. 3-Leg Multi: ..."></textarea>
+      <div class="row">
+        <div>
+          <label>Odds</label>
+          <input type="number" id="bet2Odds" step="0.01" min="0">
+        </div>
+        <div>
+          <label>Payout (auto)</label>
+          <input type="text" id="bet2Payout" readonly style="opacity: 0.6;">
+        </div>
       </div>
     </div>
   </div>
@@ -310,27 +340,52 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
   <!-- Past bets -->
   <div class="card">
     <h2 class="section-title">📜 Past Bets History</h2>
-    <p class="hint" style="margin-top:0; margin-bottom: 16px;">Add the result of last week's bet here. Week numbers are auto-assigned in order.</p>
+    <p class="hint" style="margin-top:0; margin-bottom: 16px;">Each week has TWO bets (one per picker). Add last week's results below.</p>
     <div id="pastBetsContainer"></div>
 
-    <h3 style="color: #aaa; font-size: 0.9rem; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Add New Past Bet</h3>
-    <label>Description</label>
-    <textarea id="newBetDesc" placeholder="e.g. 5-Leg Multi: ..."></textarea>
-    <div class="row">
-      <div>
-        <label>Odds</label>
-        <input type="number" id="newBetOdds" step="0.01" min="0">
-      </div>
-      <div>
-        <label>Result</label>
-        <select id="newBetResult">
-          <option value="win">Win</option>
-          <option value="loss">Loss</option>
-          <option value="pending">Pending</option>
-        </select>
+    <h3 style="color: #aaa; font-size: 0.9rem; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Add New Week</h3>
+
+    <div class="bet-input-block">
+      <span class="picker-tag" id="newWeekPicker1Tag">Picker 1</span>
+      <label>Bet Description</label>
+      <textarea id="newBet1Desc" placeholder="e.g. 5-Leg Multi: ..."></textarea>
+      <div class="row">
+        <div>
+          <label>Odds</label>
+          <input type="number" id="newBet1Odds" step="0.01" min="0">
+        </div>
+        <div>
+          <label>Result</label>
+          <select id="newBet1Result">
+            <option value="win">Win</option>
+            <option value="loss">Loss</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
       </div>
     </div>
-    <button class="btn btn-secondary" id="addPastBetBtn" style="margin-top: 16px;">+ Add Past Bet</button>
+
+    <div class="bet-input-block">
+      <span class="picker-tag" id="newWeekPicker2Tag">Picker 2</span>
+      <label>Bet Description</label>
+      <textarea id="newBet2Desc" placeholder="e.g. 3-Leg Multi: ..."></textarea>
+      <div class="row">
+        <div>
+          <label>Odds</label>
+          <input type="number" id="newBet2Odds" step="0.01" min="0">
+        </div>
+        <div>
+          <label>Result</label>
+          <select id="newBet2Result">
+            <option value="win">Win</option>
+            <option value="loss">Loss</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-secondary" id="addPastWeekBtn" style="margin-top: 16px;">+ Add Week's Results</button>
   </div>
 
   <!-- GitHub settings -->
@@ -342,7 +397,7 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
     <input type="text" id="ghOwner" placeholder="e.g. Thurman-Murman">
 
     <label>Repository Name</label>
-    <input type="text" id="ghRepo" placeholder="e.g. Punters-Club">
+    <input type="text" id="ghRepo" placeholder="e.g. Punters-Club-2">
 
     <label>Branch</label>
     <input type="text" id="ghBranch" placeholder="main" value="main">
@@ -351,7 +406,7 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
     <input type="password" id="ghToken" placeholder="github_pat_...">
     <p class="hint">
       <strong>How to get a token:</strong><br>
-      1. Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:#3498db;">github.com/settings/personal-access-tokens/new</a><br>
+      1. Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">github.com/settings/personal-access-tokens/new</a><br>
       2. Resource owner: your account · Repository access: only this repo<br>
       3. Permissions → Repository permissions → <strong>Contents: Read and write</strong><br>
       4. Generate, then paste the token above
@@ -388,9 +443,6 @@ textarea { min-height: 80px; resize: vertical; line-height: 1.4; }
 // ============================================================
 // PASSWORD GATE
 // ============================================================
-// Change this password to whatever you like.
-// Note: this is client-side only — anyone who views the page source
-// can find it. Treat as obscurity, not real security.
 const ADMIN_PASSWORD = "Hawthorn!1";
 
 const loginScreen = document.getElementById('loginScreen');
@@ -419,15 +471,26 @@ function showAdmin() {
 loginBtn.addEventListener('click', tryLogin);
 passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 
-// Stay unlocked for the session
-if (sessionStorage.getItem('pc_admin_unlocked') === 'yes') {
-  showAdmin();
-}
+if (sessionStorage.getItem('pc_admin_unlocked') === 'yes') showAdmin();
 
 // ============================================================
 // ADMIN LOGIC
 // ============================================================
 let state = null;
+
+function calculateCurrentWeek() {
+  const now = new Date();
+  const diffDays = Math.floor((now - state.startDate) / (1000 * 60 * 60 * 24));
+  return Math.max(1, Math.floor(diffDays / 7) + 1);
+}
+
+function getPickersForWeek(weekNum) {
+  const len = state.rotation.length;
+  if (len === 0) return ['—', '—'];
+  const i1 = ((weekNum - 1) * 2) % len;
+  const i2 = ((weekNum - 1) * 2 + 1) % len;
+  return [state.rotation[i1] || '—', state.rotation[i2] || '—'];
+}
 
 function initAdmin() {
   // Clone CONFIG into mutable state
@@ -435,52 +498,68 @@ function initAdmin() {
     startDate: CONFIG.startDate instanceof Date ? CONFIG.startDate : new Date(CONFIG.startDate),
     kitty: CONFIG.kitty,
     stake: CONFIG.stake,
-    bet: { ...CONFIG.bet },
+    bets: (CONFIG.bets || [{description:'',odds:0},{description:'',odds:0}]).map(b => ({ ...b })),
     members: { ...CONFIG.members },
     rotation: [...CONFIG.rotation],
     notes: CONFIG.notes || "",
-    pastBets: CONFIG.pastBets.map(b => ({ ...b })),
+    pastBets: (CONFIG.pastBets || []).map(w => ({ bets: (w.bets || []).map(b => ({...b})) })),
     lastUpdated: CONFIG.lastUpdated || ""
   };
+  // Ensure exactly 2 bets
+  while (state.bets.length < 2) state.bets.push({description:'',odds:0});
 
-  // Pre-fill form
+  // Pre-fill general
   document.getElementById('startDate').value = formatDateForInput(state.startDate);
   document.getElementById('kitty').value = state.kitty;
   document.getElementById('stake').value = state.stake;
   document.getElementById('lastUpdated').value = state.lastUpdated;
   document.getElementById('notes').value = state.notes;
-  document.getElementById('betDescription').value = state.bet.description;
-  document.getElementById('betOdds').value = state.bet.odds;
-  updatePayoutPreview();
 
+  // Pre-fill bets
+  document.getElementById('bet1Description').value = state.bets[0].description;
+  document.getElementById('bet1Odds').value = state.bets[0].odds;
+  document.getElementById('bet2Description').value = state.bets[1].description;
+  document.getElementById('bet2Odds').value = state.bets[1].odds;
+
+  updatePayoutPreviews();
+  updatePickerTags();
   renderMembers();
   renderPastBets();
+  updateWeekIndicator();
 
-  // Event listeners
+  // Listeners
   document.getElementById('startDate').addEventListener('change', e => {
     state.startDate = new Date(e.target.value + 'T00:00:00');
+    updatePickerTags();
+    updateWeekIndicator();
+    renderPastBets();
   });
   document.getElementById('kitty').addEventListener('input', e => { state.kitty = parseFloat(e.target.value) || 0; });
   document.getElementById('stake').addEventListener('input', e => {
     state.stake = parseFloat(e.target.value) || 0;
-    updatePayoutPreview();
+    updatePayoutPreviews();
   });
   document.getElementById('lastUpdated').addEventListener('input', e => { state.lastUpdated = e.target.value; });
   document.getElementById('notes').addEventListener('input', e => { state.notes = e.target.value; });
-  document.getElementById('betDescription').addEventListener('input', e => { state.bet.description = e.target.value; });
-  document.getElementById('betOdds').addEventListener('input', e => {
-    state.bet.odds = parseFloat(e.target.value) || 0;
-    updatePayoutPreview();
+
+  document.getElementById('bet1Description').addEventListener('input', e => { state.bets[0].description = e.target.value; });
+  document.getElementById('bet1Odds').addEventListener('input', e => {
+    state.bets[0].odds = parseFloat(e.target.value) || 0;
+    updatePayoutPreviews();
+  });
+  document.getElementById('bet2Description').addEventListener('input', e => { state.bets[1].description = e.target.value; });
+  document.getElementById('bet2Odds').addEventListener('input', e => {
+    state.bets[1].odds = parseFloat(e.target.value) || 0;
+    updatePayoutPreviews();
   });
 
   document.getElementById('addMemberBtn').addEventListener('click', addMember);
   document.getElementById('resetPaidBtn').addEventListener('click', resetPaid);
-  document.getElementById('addPastBetBtn').addEventListener('click', addPastBet);
+  document.getElementById('addPastWeekBtn').addEventListener('click', addPastWeek);
   document.getElementById('generateBtn').addEventListener('click', generateOutput);
   document.getElementById('copyBtn').addEventListener('click', copyOutput);
   document.getElementById('downloadBtn').addEventListener('click', downloadOutput);
 
-  // GitHub settings + save
   loadGitHubSettings();
   document.getElementById('saveSettingsBtn').addEventListener('click', saveGitHubSettings);
   document.getElementById('testConnBtn').addEventListener('click', testGitHubConnection);
@@ -495,32 +574,48 @@ function formatDateForInput(date) {
   return `${y}-${m}-${d}`;
 }
 
-function updatePayoutPreview() {
-  const odds = state.bet.odds;
+function updateWeekIndicator() {
+  const week = calculateCurrentWeek();
+  const pickers = getPickersForWeek(week);
+  document.getElementById('weekIndicator').textContent = `Week ${week} — ${pickers[0]} & ${pickers[1]}`;
+}
+
+function updatePickerTags() {
+  const week = calculateCurrentWeek();
+  const pickers = getPickersForWeek(week);
+  document.getElementById('bet1PickerTag').textContent = `${pickers[0]}'s Pick`;
+  document.getElementById('bet2PickerTag').textContent = `${pickers[1]}'s Pick`;
+
+  // For "add new week" - next unfilled week
+  const nextWeek = state.pastBets.length + 1;
+  const nextPickers = getPickersForWeek(nextWeek);
+  document.getElementById('newWeekPicker1Tag').textContent = `Wk ${nextWeek} — ${nextPickers[0]}`;
+  document.getElementById('newWeekPicker2Tag').textContent = `Wk ${nextWeek} — ${nextPickers[1]}`;
+}
+
+function updatePayoutPreviews() {
   const stake = state.stake;
-  const payout = (odds * stake).toFixed(2);
-  document.getElementById('betPayout').value = `$${payout}`;
+  document.getElementById('bet1Payout').value = `$${(state.bets[0].odds * stake).toFixed(2)}`;
+  document.getElementById('bet2Payout').value = `$${(state.bets[1].odds * stake).toFixed(2)}`;
 }
 
 function renderMembers() {
   const container = document.getElementById('membersContainer');
   container.innerHTML = '';
-
   state.rotation.forEach((name, idx) => {
     const paid = state.members[name] || false;
     const row = document.createElement('div');
     row.className = 'member-row';
     row.innerHTML = `
-      <label>${idx + 1}. ${name}</label>
+      <label>${idx + 1}. ${escapeHtml(name)}</label>
       <div style="display: flex; gap: 8px; align-items: center;">
-        <div class="toggle ${paid ? 'on' : ''}" data-name="${name}"></div>
-        <button class="btn btn-danger" data-remove="${name}" style="padding: 6px 10px; font-size: 0.8rem;">×</button>
+        <div class="toggle ${paid ? 'on' : ''}" data-name="${escapeAttr(name)}"></div>
+        <button class="btn btn-danger" data-remove="${escapeAttr(name)}" style="padding: 6px 10px; font-size: 0.8rem;">×</button>
       </div>
     `;
     container.appendChild(row);
   });
 
-  // Wire toggles
   container.querySelectorAll('.toggle').forEach(t => {
     t.addEventListener('click', () => {
       const name = t.dataset.name;
@@ -529,7 +624,6 @@ function renderMembers() {
     });
   });
 
-  // Wire remove buttons
   container.querySelectorAll('[data-remove]').forEach(b => {
     b.addEventListener('click', () => {
       const name = b.dataset.remove;
@@ -537,6 +631,9 @@ function renderMembers() {
         delete state.members[name];
         state.rotation = state.rotation.filter(n => n !== name);
         renderMembers();
+        updatePickerTags();
+        updateWeekIndicator();
+        renderPastBets();
       }
     });
   });
@@ -554,6 +651,9 @@ function addMember() {
   state.rotation.push(trimmed);
   state.members[trimmed] = false;
   renderMembers();
+  updatePickerTags();
+  updateWeekIndicator();
+  renderPastBets();
 }
 
 function resetPaid() {
@@ -572,76 +672,124 @@ function renderPastBets() {
     return;
   }
 
-  state.pastBets.forEach((bet, idx) => {
-    const item = document.createElement('div');
-    item.className = 'past-bet-item';
-    const truncated = bet.bet.length > 50 ? bet.bet.slice(0, 50) + '…' : bet.bet;
-    item.innerHTML = `
-      <span class="week-tag">W${idx + 1}</span>
-      <span class="desc" title="${escapeAttr(bet.bet)}">${escapeHtml(truncated)}</span>
-      <span class="odds">$${bet.odds.toFixed(2)}</span>
-      <select data-idx="${idx}">
-        <option value="win" ${bet.result === 'win' ? 'selected' : ''}>Win</option>
-        <option value="loss" ${bet.result === 'loss' ? 'selected' : ''}>Loss</option>
-        <option value="pending" ${bet.result === 'pending' ? 'selected' : ''}>Pending</option>
-      </select>
-      <button class="remove" data-idx="${idx}" title="Remove">×</button>
+  state.pastBets.forEach((week, weekIdx) => {
+    const weekNum = weekIdx + 1;
+    const pickers = getPickersForWeek(weekNum);
+    const div = document.createElement('div');
+    div.className = 'past-bet-week';
+
+    let rowsHtml = '';
+    (week.bets || []).forEach((bet, betIdx) => {
+      const picker = pickers[betIdx] || '—';
+      const truncated = (bet.bet || '').length > 40 ? (bet.bet || '').slice(0, 40) + '…' : (bet.bet || '');
+      rowsHtml += `
+        <div class="past-bet-row">
+          <span class="picker">${escapeHtml(picker)}</span>
+          <span class="desc" title="${escapeAttr(bet.bet || '')}">${escapeHtml(truncated)}</span>
+          <span class="odds">$${(bet.odds || 0).toFixed(2)}</span>
+          <select data-week="${weekIdx}" data-bet="${betIdx}">
+            <option value="win" ${bet.result === 'win' ? 'selected' : ''}>Win</option>
+            <option value="loss" ${bet.result === 'loss' ? 'selected' : ''}>Loss</option>
+            <option value="pending" ${bet.result === 'pending' ? 'selected' : ''}>Pending</option>
+          </select>
+        </div>
+      `;
+    });
+
+    div.innerHTML = `
+      <div class="week-header">
+        <div>
+          <span class="week-tag">Week ${weekNum}</span>
+          <span class="week-pickers">— ${escapeHtml(pickers[0])} & ${escapeHtml(pickers[1])}</span>
+        </div>
+        <button class="remove-week" data-week-idx="${weekIdx}">Remove Week</button>
+      </div>
+      ${rowsHtml}
     `;
-    container.appendChild(item);
+    container.appendChild(div);
   });
 
   container.querySelectorAll('select').forEach(s => {
     s.addEventListener('change', e => {
-      state.pastBets[parseInt(e.target.dataset.idx)].result = e.target.value;
+      const w = parseInt(e.target.dataset.week);
+      const b = parseInt(e.target.dataset.bet);
+      state.pastBets[w].bets[b].result = e.target.value;
     });
   });
 
-  container.querySelectorAll('.remove').forEach(b => {
-    b.addEventListener('click', e => {
-      const idx = parseInt(e.target.dataset.idx);
-      if (confirm(`Remove Week ${idx + 1}'s past bet?`)) {
+  container.querySelectorAll('.remove-week').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const idx = parseInt(e.target.dataset.weekIdx);
+      if (confirm(`Remove Week ${idx + 1} entirely (both bets)?`)) {
         state.pastBets.splice(idx, 1);
         renderPastBets();
+        updatePickerTags();
       }
     });
   });
 }
 
-function addPastBet() {
-  const desc = document.getElementById('newBetDesc').value.trim();
-  const odds = parseFloat(document.getElementById('newBetOdds').value);
-  const result = document.getElementById('newBetResult').value;
+function addPastWeek() {
+  const desc1 = document.getElementById('newBet1Desc').value.trim();
+  const odds1 = parseFloat(document.getElementById('newBet1Odds').value);
+  const result1 = document.getElementById('newBet1Result').value;
 
-  if (!desc) { showToast('Bet description required', 'error'); return; }
-  if (!odds || odds <= 0) { showToast('Valid odds required', 'error'); return; }
+  const desc2 = document.getElementById('newBet2Desc').value.trim();
+  const odds2 = parseFloat(document.getElementById('newBet2Odds').value);
+  const result2 = document.getElementById('newBet2Result').value;
 
-  state.pastBets.push({ bet: desc, odds, result });
+  if (!desc1 || !desc2) { showToast('Both bet descriptions required', 'error'); return; }
+  if (!odds1 || odds1 <= 0 || !odds2 || odds2 <= 0) { showToast('Valid odds required for both bets', 'error'); return; }
+
+  state.pastBets.push({
+    bets: [
+      { bet: desc1, odds: odds1, result: result1 },
+      { bet: desc2, odds: odds2, result: result2 }
+    ]
+  });
+
+  // Clear inputs
+  document.getElementById('newBet1Desc').value = '';
+  document.getElementById('newBet1Odds').value = '';
+  document.getElementById('newBet1Result').value = 'win';
+  document.getElementById('newBet2Desc').value = '';
+  document.getElementById('newBet2Odds').value = '';
+  document.getElementById('newBet2Result').value = 'win';
+
   renderPastBets();
-
-  document.getElementById('newBetDesc').value = '';
-  document.getElementById('newBetOdds').value = '';
-  document.getElementById('newBetResult').value = 'win';
-
-  showToast(`Added Week ${state.pastBets.length}: ${result.toUpperCase()}`);
+  updatePickerTags();
+  showToast(`Added Week ${state.pastBets.length}`);
 }
 
+// ============================================================
+// CONFIG.JS BUILDER
+// ============================================================
 function buildConfigString() {
   const d = state.startDate;
   const startDateStr = `new Date(${d.getFullYear()}, ${d.getMonth()}, ${d.getDate()})`;
 
-  // Build members object preserving rotation order
-  const memberLines = state.rotation.map(name => {
-    return `    "${escapeStr(name)}": ${!!state.members[name]}`;
-  }).join(',\n');
+  const memberLines = state.rotation.map(name =>
+    `    "${escapeStr(name)}": ${!!state.members[name]}`
+  ).join(',\n');
 
   const rotationStr = state.rotation.map(n => `"${escapeStr(n)}"`).join(', ');
 
-  const pastBetLines = state.pastBets.map(b => {
-    return `    { bet: "${escapeStr(b.bet)}", odds: ${b.odds}, result: "${b.result}" }`;
+  const bet1 = state.bets[0];
+  const bet2 = state.bets[1];
+
+  const pastBetsStr = state.pastBets.map((w, i) => {
+    const weekNum = i + 1;
+    const inner = (w.bets || []).map(b =>
+      `      { bet: "${escapeStr(b.bet || '')}", odds: ${b.odds || 0}, result: "${b.result || 'pending'}" }`
+    ).join(',\n');
+    return `    // Week ${weekNum}\n    { bets: [\n${inner}\n    ]}`;
   }).join(',\n');
 
   return `// ============================================================
 // 🔧 PUNTERS CLUB CONFIG - Generated by admin.html 🔧
+// ============================================================
+// Two pickers per week (sequential pairs through rotation list).
+// Each picker submits their own bet.
 // ============================================================
 
 const CONFIG = {
@@ -652,13 +800,19 @@ const CONFIG = {
   // 💰 Kitty
   kitty: ${state.kitty.toFixed(2)},
 
-  // 🎯 This Week's Bet
-  bet: {
-    description: "${escapeStr(state.bet.description)}",
-    odds: ${state.bet.odds}
-  },
+  // 🎯 This Week's Bets (one per picker)
+  bets: [
+    {
+      description: "${escapeStr(bet1.description || '')}",
+      odds: ${bet1.odds || 0}
+    },
+    {
+      description: "${escapeStr(bet2.description || '')}",
+      odds: ${bet2.odds || 0}
+    }
+  ],
 
-  // Stake per week
+  // Stake per bet
   stake: ${state.stake},
 
   // Member payment status
@@ -666,15 +820,15 @@ const CONFIG = {
 ${memberLines}
   },
 
-  // Rotation order
+  // Rotation order (pairs pick each week, wrapping around)
   rotation: [${rotationStr}],
 
   // Notes
   notes: "${escapeStr(state.notes)}",
 
-  // 📜 Past Bets History
+  // 📜 Past Bets History (each week has two bets)
   pastBets: [
-${pastBetLines}
+${pastBetsStr}
   ],
 
   lastUpdated: "${escapeStr(state.lastUpdated)}"
@@ -689,14 +843,13 @@ function generateOutput() {
   out.style.display = 'block';
   document.getElementById('copyBtn').style.display = 'inline-block';
   document.getElementById('downloadBtn').style.display = 'inline-block';
-
   out.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function copyOutput() {
   const text = document.getElementById('output').textContent;
   navigator.clipboard.writeText(text).then(() => {
-    showToast('Copied to clipboard! Now paste into GitHub config.js');
+    showToast('Copied to clipboard!');
   }).catch(() => {
     showToast('Copy failed — select the text manually', 'error');
   });
@@ -714,7 +867,9 @@ function downloadOutput() {
   showToast('Downloaded config.js');
 }
 
-// Helpers
+// ============================================================
+// HELPERS
+// ============================================================
 function escapeStr(s) {
   return String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
 }
@@ -724,7 +879,6 @@ function escapeHtml(s) {
 function escapeAttr(s) {
   return escapeHtml(s).replace(/"/g, '&quot;');
 }
-
 function showToast(msg, type) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -747,9 +901,7 @@ function loadGitHubSettings() {
     document.getElementById('ghRepo').value = s.repo || '';
     document.getElementById('ghBranch').value = s.branch || 'main';
     document.getElementById('ghToken').value = s.token || '';
-  } catch (e) {
-    console.warn('Failed to load settings', e);
-  }
+  } catch (e) { console.warn('Failed to load settings', e); }
 }
 
 function saveGitHubSettings() {
@@ -791,45 +943,29 @@ function getGitHubSettings() {
 async function testGitHubConnection() {
   const s = getGitHubSettings();
   if (!s) { showToast('Fill in owner, repo, and token first', 'error'); return; }
-
   showToast('Testing connection…');
   try {
     const res = await fetch(`https://api.github.com/repos/${s.owner}/${s.repo}`, {
-      headers: {
-        'Authorization': `Bearer ${s.token}`,
-        'Accept': 'application/vnd.github+json'
-      }
+      headers: { 'Authorization': `Bearer ${s.token}`, 'Accept': 'application/vnd.github+json' }
     });
     if (res.ok) {
       const data = await res.json();
       showToast(`✓ Connected to ${data.full_name}`);
-    } else if (res.status === 401) {
-      showToast('✗ Token invalid or expired', 'error');
-    } else if (res.status === 404) {
-      showToast('✗ Repo not found or token lacks access', 'error');
-    } else {
-      showToast(`✗ Error ${res.status}`, 'error');
-    }
-  } catch (e) {
-    showToast('✗ Network error: ' + e.message, 'error');
-  }
+    } else if (res.status === 401) showToast('✗ Token invalid or expired', 'error');
+    else if (res.status === 404) showToast('✗ Repo not found or token lacks access', 'error');
+    else showToast(`✗ Error ${res.status}`, 'error');
+  } catch (e) { showToast('✗ Network error: ' + e.message, 'error'); }
 }
 
-// Encode a UTF-8 string to base64 (browser-safe for non-ASCII like emoji)
 function utf8ToBase64(str) {
   return btoa(unescape(encodeURIComponent(str)));
 }
 
 async function saveToGitHub() {
   const s = getGitHubSettings();
-  if (!s) {
-    showToast('Set up GitHub connection first (above)', 'error');
-    return;
-  }
+  if (!s) { showToast('Set up GitHub connection first', 'error'); return; }
 
-  if (!confirm(`Push config.js to ${s.owner}/${s.repo} on branch "${s.branch}"?\n\nNetlify will auto-deploy in ~30 seconds.`)) {
-    return;
-  }
+  if (!confirm(`Push config.js to ${s.owner}/${s.repo} on branch "${s.branch}"?\n\nNetlify will auto-deploy in ~30 seconds.`)) return;
 
   const btn = document.getElementById('saveToGithubBtn');
   const originalText = btn.textContent;
@@ -845,15 +981,10 @@ async function saveToGitHub() {
       'Content-Type': 'application/json'
     };
 
-    // Get current file SHA (required for update)
-    // URL-based cache-buster avoids GitHub CDN serving stale SHA after recent commits
     async function fetchCurrentSha() {
       const url = `${apiBase}?ref=${encodeURIComponent(s.branch)}&_=${Date.now()}`;
       const r = await fetch(url, { headers, cache: 'no-store' });
-      if (r.ok) {
-        const d = await r.json();
-        return d.sha;
-      }
+      if (r.ok) { const d = await r.json(); return d.sha; }
       if (r.status === 404) return null;
       const err = await r.json().catch(() => ({}));
       throw new Error(`Couldn't read existing file: ${r.status} ${err.message || ''}`);
@@ -861,7 +992,6 @@ async function saveToGitHub() {
 
     let sha = await fetchCurrentSha();
 
-    // Build new content
     const content = buildConfigString();
     const commitMsg = `Update config.js — Week ${calculateCurrentWeek()} (${new Date().toISOString().slice(0, 10)})`;
 
@@ -874,16 +1004,11 @@ async function saveToGitHub() {
 
     async function attemptPut(useSha) {
       if (useSha) body.sha = useSha; else delete body.sha;
-      return fetch(apiBase, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify(body)
-      });
+      return fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
     }
 
     let putRes = await attemptPut(sha);
 
-    // If GitHub says SHA is stale (409), refetch and retry once
     if (putRes.status === 409) {
       btn.textContent = '⏳ Retrying…';
       const freshSha = await fetchCurrentSha();
@@ -905,12 +1030,6 @@ async function saveToGitHub() {
     btn.textContent = originalText;
     btn.disabled = false;
   }
-}
-
-function calculateCurrentWeek() {
-  const now = new Date();
-  const diffDays = Math.floor((now - state.startDate) / (1000 * 60 * 60 * 24));
-  return Math.max(1, Math.floor(diffDays / 7) + 1);
 }
 </script>
 
