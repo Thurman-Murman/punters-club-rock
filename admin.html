@@ -846,11 +846,10 @@ async function saveToGitHub() {
     };
 
     // Get current file SHA (required for update)
-    // Cache-bust to avoid GitHub CDN returning stale SHA after recent commits
+    // URL-based cache-buster avoids GitHub CDN serving stale SHA after recent commits
     async function fetchCurrentSha() {
       const url = `${apiBase}?ref=${encodeURIComponent(s.branch)}&_=${Date.now()}`;
-      const cacheHeaders = { ...headers, 'Cache-Control': 'no-cache', 'If-None-Match': '' };
-      const r = await fetch(url, { headers: cacheHeaders });
+      const r = await fetch(url, { headers, cache: 'no-store' });
       if (r.ok) {
         const d = await r.json();
         return d.sha;
