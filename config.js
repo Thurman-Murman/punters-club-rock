@@ -8,7 +8,7 @@ const CONFIG = {
   startDate: new Date(2026, 2, 9),
 
   // 💰 Kitty
-  kitty: 100.00,
+  kitty: 0.00,
 
   // 🎯 This Week's Bet
   bet: {
