@@ -5,7 +5,7 @@
 const CONFIG = {
 
   // 📅 Start Date - The Sunday Week 1 began
-  startDate: new Date(2026, 2, 16),
+  startDate: new Date(2026, 2, 9),
 
   // 💰 Kitty
   kitty: 0.00,
