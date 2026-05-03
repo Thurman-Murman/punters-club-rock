@@ -55,8 +55,17 @@ h1 {
 
 .picker-card { text-align: center; }
 .picker-label { font-size: 0.9rem; color: #aaa; margin-bottom: 8px; }
-.picker-name { font-size: 1.8rem; font-weight: 600; color: #3498db; }
-.picker-note { margin-top: 8px; color: #888; font-size: 0.85rem; }
+.picker-names {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #3498db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.picker-amp { color: #888; font-size: 1.2rem; }
 
 .section-title {
   font-size: 1.1rem;
@@ -101,36 +110,58 @@ h1 {
   background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2));
   border-color: rgba(155, 89, 182, 0.3);
 }
-.bet-description { font-size: 1.3rem; font-weight: 600; color: #fff; margin-bottom: 20px; line-height: 1.4; }
-.bet-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.bet-detail { text-align: center; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+
+.bet-block {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.bet-block:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.bet-picker-tag {
+  display: inline-block;
+  background: rgba(52, 152, 219, 0.3);
+  color: #3498db;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.bet-description { font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 16px; line-height: 1.4; }
+.bet-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.bet-detail { text-align: center; padding: 10px 6px; background: rgba(0,0,0,0.2); border-radius: 10px; }
 .bet-label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #888;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 6px;
 }
-.bet-value { font-size: 1.2rem; font-weight: 600; color: #9b59b6; }
+.bet-value { font-size: 1.05rem; font-weight: 600; color: #9b59b6; }
 .bet-value.payout { color: #2ecc71; }
 
 .history-card { background: rgba(44, 62, 80, 0.3); }
 .table-wrapper { overflow-x: auto; }
-.history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.history-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .history-table th, .history-table td {
-  padding: 12px 8px;
+  padding: 10px 6px;
   text-align: left;
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .history-table th {
   color: #888;
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.history-table td.week { color: #888; font-weight: 600; }
+.history-table tr.week-divider td { border-bottom: 2px solid rgba(255,255,255,0.15); }
+.history-table td.week { color: #888; font-weight: 600; vertical-align: top; }
 .history-table td.picker { color: #3498db; font-weight: 500; }
 .history-table td.bet-desc { color: #fff; max-width: 150px; }
 .history-table td.odds { color: #9b59b6; font-weight: 500; }
@@ -138,7 +169,7 @@ h1 {
 .result-badge {
   padding: 4px 10px;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -164,27 +195,13 @@ footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
     </div>
 
     <div class="card picker-card">
-      <p class="picker-label">🎯 This Week's Picker</p>
-      <p class="picker-name" id="currentPicker"></p>
+      <p class="picker-label">🎯 This Week's Pickers</p>
+      <div class="picker-names" id="currentPickers"></div>
     </div>
 
     <div class="card bet-card" id="betCard">
-      <h2 class="section-title">🏇 This Week's Bet</h2>
-      <p class="bet-description" id="betDescription"></p>
-      <div class="bet-details">
-        <div class="bet-detail">
-          <span class="bet-label">Odds</span>
-          <span class="bet-value" id="betOdds">-</span>
-        </div>
-        <div class="bet-detail">
-          <span class="bet-label">Stake</span>
-          <span class="bet-value" id="betStake">-</span>
-        </div>
-        <div class="bet-detail">
-          <span class="bet-label">Potential Payout</span>
-          <span class="bet-value payout" id="betPayout">-</span>
-        </div>
-      </div>
+      <h2 class="section-title">🏇 This Week's Bets</h2>
+      <div id="betsContainer"></div>
     </div>
 
     <div class="card">
@@ -194,7 +211,7 @@ footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
 
     <div class="card rotation-card">
       <h2 class="section-title">Rotation Order</h2>
-      <p style="color: #888; font-size: 0.85rem;">Current picker highlighted</p>
+      <p style="color: #888; font-size: 0.85rem;">Two pick each week — current pickers highlighted</p>
       <div class="rotation-list" id="rotationList"></div>
     </div>
 
@@ -214,7 +231,7 @@ footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
           <tbody id="historyBody"></tbody>
         </table>
       </div>
-      <p class="no-history" id="noHistory">No past bets yet - check back after Week 1!</p>
+      <p class="no-history" id="noHistory">No past bets yet — check back after Week 1!</p>
     </div>
 
     <div class="card notes-card" id="notesCard">
@@ -232,7 +249,7 @@ footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
 
   <script>
     // ============================================================
-    // Auto-calculated week + picker
+    // Auto-calculated week + pair of pickers
     // ============================================================
     function calculateWeek() {
       const now = new Date();
@@ -243,67 +260,95 @@ footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
       return Math.max(1, weekNum);
     }
 
-    function getCurrentPicker(weekNum) {
-      const index = (weekNum - 1) % CONFIG.rotation.length;
-      return CONFIG.rotation[index];
+    // For week N, pickers are at positions [(N-1)*2, (N-1)*2+1] mod rotation.length
+    function getCurrentPickers(weekNum) {
+      const len = CONFIG.rotation.length;
+      const idx1 = ((weekNum - 1) * 2) % len;
+      const idx2 = ((weekNum - 1) * 2 + 1) % len;
+      return [CONFIG.rotation[idx1], CONFIG.rotation[idx2]];
     }
 
     const currentWeek = calculateWeek();
-    const currentPicker = getCurrentPicker(currentWeek);
+    const currentPickers = getCurrentPickers(currentWeek);
 
     // ============================================================
     // Render the page
     // ============================================================
     document.getElementById('weekInfo').textContent = `Week ${currentWeek}`;
     document.getElementById('kittyAmount').textContent = `$${CONFIG.kitty.toFixed(2)}`;
-    document.getElementById('currentPicker').textContent = currentPicker;
-    document.getElementById('lastUpdated').textContent = CONFIG.lastUpdated;
+    document.getElementById('lastUpdated').textContent = CONFIG.lastUpdated || '';
 
-    // Bet details
-    document.getElementById('betDescription').textContent = CONFIG.bet.description;
-    document.getElementById('betStake').textContent = `$${CONFIG.stake}`;
+    // Pickers (two names with & between)
+    const pickerNames = document.getElementById('currentPickers');
+    pickerNames.innerHTML = `
+      <span>${currentPickers[0]}</span>
+      <span class="picker-amp">&</span>
+      <span>${currentPickers[1]}</span>
+    `;
 
-    if (CONFIG.bet.odds > 0) {
-      const payout = (CONFIG.stake * CONFIG.bet.odds).toFixed(2);
-      document.getElementById('betOdds').textContent = `$${CONFIG.bet.odds.toFixed(2)}`;
-      document.getElementById('betPayout').textContent = `$${payout}`;
-    } else {
-      document.getElementById('betOdds').textContent = '-';
-      document.getElementById('betPayout').textContent = '-';
-    }
+    // Bets — render two blocks
+    const betsContainer = document.getElementById('betsContainer');
+    const bets = CONFIG.bets || [];
+    bets.forEach((bet, idx) => {
+      const picker = currentPickers[idx] || '—';
+      const oddsDisplay = bet.odds > 0 ? `$${bet.odds.toFixed(2)}` : '-';
+      const payoutDisplay = bet.odds > 0 ? `$${(CONFIG.stake * bet.odds).toFixed(2)}` : '-';
+
+      const block = document.createElement('div');
+      block.className = 'bet-block';
+      block.innerHTML = `
+        <span class="bet-picker-tag">${picker}'s Pick</span>
+        <p class="bet-description">${escapeHtml(bet.description)}</p>
+        <div class="bet-details">
+          <div class="bet-detail">
+            <span class="bet-label">Odds</span>
+            <span class="bet-value">${oddsDisplay}</span>
+          </div>
+          <div class="bet-detail">
+            <span class="bet-label">Stake</span>
+            <span class="bet-value">$${CONFIG.stake}</span>
+          </div>
+          <div class="bet-detail">
+            <span class="bet-label">Payout</span>
+            <span class="bet-value payout">${payoutDisplay}</span>
+          </div>
+        </div>
+      `;
+      betsContainer.appendChild(block);
+    });
 
     // Members
     const membersList = document.getElementById('membersList');
     for (const [name, paid] of Object.entries(CONFIG.members)) {
-      const isCurrent = name === currentPicker;
-      membersList.innerHTML += `
-        <div class="member">
-          <span class="member-name">
-            ${name}
-            ${isCurrent ? '<span class="current">Picker</span>' : ''}
-          </span>
-          <span class="status ${paid ? 'paid' : 'unpaid'}">
-            ${paid ? '✓ Paid' : 'Unpaid'}
-          </span>
-        </div>
+      const isCurrent = currentPickers.includes(name);
+      const div = document.createElement('div');
+      div.className = 'member';
+      div.innerHTML = `
+        <span class="member-name">
+          ${escapeHtml(name)}
+          ${isCurrent ? '<span class="current">Picker</span>' : ''}
+        </span>
+        <span class="status ${paid ? 'paid' : 'unpaid'}">
+          ${paid ? '✓ Paid' : 'Unpaid'}
+        </span>
       `;
+      membersList.appendChild(div);
     }
 
-    // Rotation
+    // Rotation - mark first 2 picker positions for current week
     const rotationList = document.getElementById('rotationList');
-    const currentCycle = Math.ceil(currentWeek / CONFIG.rotation.length);
-    const positionInCycle = ((currentWeek - 1) % CONFIG.rotation.length);
+    const len = CONFIG.rotation.length;
+    const idx1 = ((currentWeek - 1) * 2) % len;
+    const idx2 = ((currentWeek - 1) * 2 + 1) % len;
 
     CONFIG.rotation.forEach((name, index) => {
       let classes = 'rotation-item';
-      if (name === currentPicker) classes += ' current';
-      if (index < positionInCycle) classes += ' done';
-      rotationList.innerHTML += `<span class="${classes}">${name}</span>`;
+      if (index === idx1 || index === idx2) classes += ' current';
+      const span = document.createElement('span');
+      span.className = classes;
+      span.textContent = name;
+      rotationList.appendChild(span);
     });
-
-    if (currentCycle > 1) {
-      rotationList.innerHTML += `<span class="rotation-item" style="background: rgba(243,156,18,0.3); color: #f39c12;">Cycle ${currentCycle}</span>`;
-    }
 
     // Notes
     const notesCard = document.getElementById('notesCard');
@@ -313,27 +358,37 @@ footer { text-align: center; padding: 30px 0; color: #555; font-size: 0.8rem; }
       notesCard.style.display = 'none';
     }
 
-    // Past bets history
+    // Past bets history — each week is two rows
     const historyBody = document.getElementById('historyBody');
     const noHistory = document.getElementById('noHistory');
 
     if (CONFIG.pastBets && CONFIG.pastBets.length > 0) {
       noHistory.style.display = 'none';
-      CONFIG.pastBets.forEach((bet, index) => {
-        const weekNum = index + 1;
-        const picker = CONFIG.rotation[(weekNum - 1) % CONFIG.rotation.length];
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="week">${weekNum}</td>
-          <td class="picker">${picker}</td>
-          <td class="bet-desc">${bet.bet}</td>
-          <td class="odds">$${bet.odds.toFixed(2)}</td>
-          <td><span class="result-badge ${bet.result}">${bet.result}</span></td>
-        `;
-        historyBody.appendChild(row);
+      CONFIG.pastBets.forEach((week, weekIdx) => {
+        const weekNum = weekIdx + 1;
+        const weekPickers = getCurrentPickers(weekNum);
+        const betsArr = week.bets || [];
+
+        betsArr.forEach((bet, betIdx) => {
+          const picker = weekPickers[betIdx] || '—';
+          const row = document.createElement('tr');
+          if (betIdx === betsArr.length - 1) row.className = 'week-divider';
+          row.innerHTML = `
+            <td class="week">${betIdx === 0 ? weekNum : ''}</td>
+            <td class="picker">${escapeHtml(picker)}</td>
+            <td class="bet-desc">${escapeHtml(bet.bet)}</td>
+            <td class="odds">$${bet.odds.toFixed(2)}</td>
+            <td><span class="result-badge ${bet.result}">${bet.result}</span></td>
+          `;
+          historyBody.appendChild(row);
+        });
       });
     } else {
       document.querySelector('.table-wrapper').style.display = 'none';
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
   </script>
 </body>
