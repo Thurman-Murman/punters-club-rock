@@ -846,15 +846,21 @@ async function saveToGitHub() {
     };
 
     // Get current file SHA (required for update)
-    let sha = null;
-    const getRes = await fetch(`${apiBase}?ref=${encodeURIComponent(s.branch)}`, { headers });
-    if (getRes.ok) {
-      const data = await getRes.json();
-      sha = data.sha;
-    } else if (getRes.status !== 404) {
-      const err = await getRes.json().catch(() => ({}));
-      throw new Error(`Couldn't read existing file: ${getRes.status} ${err.message || ''}`);
+    // Cache-bust to avoid GitHub CDN returning stale SHA after recent commits
+    async function fetchCurrentSha() {
+      const url = `${apiBase}?ref=${encodeURIComponent(s.branch)}&_=${Date.now()}`;
+      const cacheHeaders = { ...headers, 'Cache-Control': 'no-cache', 'If-None-Match': '' };
+      const r = await fetch(url, { headers: cacheHeaders });
+      if (r.ok) {
+        const d = await r.json();
+        return d.sha;
+      }
+      if (r.status === 404) return null;
+      const err = await r.json().catch(() => ({}));
+      throw new Error(`Couldn't read existing file: ${r.status} ${err.message || ''}`);
     }
+
+    let sha = await fetchCurrentSha();
 
     // Build new content
     const content = buildConfigString();
@@ -867,11 +873,23 @@ async function saveToGitHub() {
     };
     if (sha) body.sha = sha;
 
-    const putRes = await fetch(apiBase, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(body)
-    });
+    async function attemptPut(useSha) {
+      if (useSha) body.sha = useSha; else delete body.sha;
+      return fetch(apiBase, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(body)
+      });
+    }
+
+    let putRes = await attemptPut(sha);
+
+    // If GitHub says SHA is stale (409), refetch and retry once
+    if (putRes.status === 409) {
+      btn.textContent = '⏳ Retrying…';
+      const freshSha = await fetchCurrentSha();
+      putRes = await attemptPut(freshSha);
+    }
 
     if (putRes.ok) {
       const result = await putRes.json();
