@@ -11,7 +11,7 @@ const CONFIG = {
   startDate: new Date(2026, 1, 15),
 
   // 💰 Kitty
-  kitty: 100.00,
+  kitty: 1000000000022.00,
 
   // 🎯 This Week's Bets (one per picker)
   bets: [
