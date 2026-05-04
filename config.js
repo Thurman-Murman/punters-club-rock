@@ -31,18 +31,18 @@ const CONFIG = {
   // Member payment status
   members: {
     "Whip": true,
-    "Deeks": false,
-    "Kingy": false,
-    "Pottsy": false,
+    "Deeks": true,
+    "Kingy": true,
+    "Pottsy": true,
     "Slug": true,
-    "Sauce": false,
-    "Pecka": false,
-    "Nutty": false,
-    "Hutto": false,
-    "Baz": false,
-    "Pooch": false,
-    "Cal": false,
-    "Ragsy": false
+    "Sauce": true,
+    "Pecka": true,
+    "Nutty": true,
+    "Hutto": true,
+    "Baz": true,
+    "Pooch": true,
+    "Cal": true,
+    "Ragsy": true
   },
 
   // Rotation order (pairs pick each week, wrapping around)
