@@ -30,11 +30,11 @@ const CONFIG = {
 
   // Member payment status
   members: {
-    "Whip": false,
+    "Whip": true,
     "Deeks": false,
     "Kingy": false,
     "Pottsy": false,
-    "Slug": false,
+    "Slug": true,
     "Sauce": false,
     "Pecka": false,
     "Nutty": false,
