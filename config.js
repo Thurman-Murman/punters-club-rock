@@ -11,7 +11,7 @@ const CONFIG = {
   startDate: new Date(2026, 1, 15),
 
   // 💰 Kitty
-  kitty: 1000000000022.00,
+  kitty: 6315.00,
 
   // 🎯 This Week's Bets (one per picker)
   bets: [
@@ -49,12 +49,12 @@ const CONFIG = {
   rotation: ["Whip", "Deeks", "Kingy", "Pottsy", "Slug", "Sauce", "Pecka", "Nutty", "Hutto", "Baz", "Pooch", "Cal", "Ragsy"],
 
   // Notes
-  notes: "$50 per week. Bank details: BSB XXX-XXX ACC XXXXXXXX",
+  notes: "$50 per week. Bank details: BSB 923-100 ACC 3013-09085\nFines: BSB 704-230 ACC 1004-75957",
 
   // 📜 Past Bets History (each week has two bets)
   pastBets: [
 
   ],
 
-  lastUpdated: ""
+  lastUpdated: "30/04/2026"
 };
