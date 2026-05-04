@@ -49,7 +49,7 @@ const CONFIG = {
   rotation: ["Whip", "Deeks", "Kingy", "Pottsy", "Slug", "Sauce", "Pecka", "Nutty", "Hutto", "Baz", "Pooch", "Cal", "Ragsy"],
 
   // Notes
-  notes: "$50 per week. Bank details: BSB 923-100 ACC 3013-09085\nFines: BSB 704-230 ACC 1004-75957",
+  notes: "$50 per week. Bank details: BSB 923-100 ACC 3013-09085\nFines: BSB 704-230 ACC 1004-75957\n\nHoodies status: Label created by sender",
 
   // 📜 Past Bets History (each week has two bets)
   pastBets: [
