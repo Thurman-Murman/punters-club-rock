@@ -8,10 +8,10 @@
 const CONFIG = {
 
   // 📅 Start Date - The Sunday Week 1 began
-  startDate: new Date(2026, 1, 15),
+  startDate: new Date(2026, 1, 16),
 
   // 💰 Kitty
-  kitty: 6315.00,
+  kitty: 6465.00,
 
   // 🎯 This Week's Bets (one per picker)
   bets: [
@@ -35,7 +35,7 @@ const CONFIG = {
     "Kingy": true,
     "Pottsy": true,
     "Slug": true,
-    "Sauce": true,
+    "Sauce": false,
     "Pecka": true,
     "Nutty": true,
     "Hutto": true,
